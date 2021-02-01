@@ -4,55 +4,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drumb Kit</title>
+    <title>Botonera TKB</title>
     <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
     <div class="keys">
-        <div data-key="65" class="key">
-            <kbd>A</kbd>
-            <span class="sound">clap</span>
+        <div id="65" onclick="playAudio(event)" class="key">
+            <kbd>Bancá que voy..</kbd>
+            <span class="sound">Increible</span>
         </div>
-        <div data-key="83" class="key">
-            <kbd>S</kbd>
-            <span class="sound">bass1</span>
+        <div id="83" onclick="playAudio(event)" class="key">
+            <kbd>Bien, dale, buenisimo, bien..</kbd>
+            <span class="sound">Chaman</span>
         </div>
-        <div data-key="68" class="key">
-            <kbd>D</kbd>
-            <span class="sound">bass2</span>
+        <div id="68" onclick="playAudio(event)" class="key">
+            <kbd>Sos un traidor, ¡traidor!</kbd>
+            <span class="sound">Sansan</span>
         </div>
-        <div data-key="70" class="key">
-            <kbd>F</kbd>
-            <span class="sound">metal</span>
+        <div id="70" onclick="playAudio(event)" class="key">
+            <kbd>Fan del farmagordo</kbd>
+            <span class="sound">Perrah</span>
         </div>
-        <div data-key="71" class="key">
-            <kbd>G</kbd>
-            <span class="sound">bass3</span>
+        <div id="71" onclick="playAudio(event)" class="key">
+            <kbd>Garchecito</kbd>
+            <span class="sound">Kevo</span>
         </div>
-        <div data-key="72" class="key">
-            <kbd>H</kbd>
-            <span class="sound">whoosh</span>
+        <div id="72" onclick="playAudio(event)" class="key">
+            <kbd>Jakos</kbd>
+            <span class="sound">Gesualman</span>
+        </div>
+        <div id="73" onclick="playAudio(event)" class="key">
+            <kbd>Perdón Tochi</kbd>
+            <span class="sound">Sansan</span>
+        </div>
+        <div id="74" onclick="playAudio(event)" class="key">
+            <kbd>Risa Sansan</kbd>
+            <span class="sound">Sansan</span>
+        </div>
+        <div id="75" onclick="playAudio(event)" class="key">
+            <kbd>¡Vamos gordo!</kbd>
+            <span class="sound">Undefined</span>
+        </div>
+        <div id="76" onclick="playAudio(event)" class="key">
+            <kbd>Miedo volvé</kbd>
+            <span class="sound">Sansan</span>
+        </div>
+        <div id="77" onclick="playAudio(event)" class="key">
+            <kbd>Yendo para allá</kbd>
+            <span class="sound">Increible</span>
         </div>
     </div>
 
-    <audio data-key="65" src="assets/sounds/clap.wav"></audio>
-    <audio data-key="83" src="assets/sounds/bass1.wav"></audio>
-    <audio data-key="68" src="assets/sounds/bass2.wav"></audio>
-    <audio data-key="70" src="assets/sounds/metal.wav"></audio>
-    <audio data-key="71" src="assets/sounds/bass3.wav"></audio>
-    <audio data-key="72" src="assets/sounds/whoosh.wav"></audio>
+    <audio id="65" src="assets/sounds/banca_que_voy.mp3"></audio>
+    <audio id="83" src="assets/sounds/bien_buenisimo_bien.mp3"></audio>
+    <audio id="68" src="assets/sounds/de_acuerdo_mahuen.mp3"></audio>
+    <audio id="70" src="assets/sounds/fan_farmagordo.mp3"></audio>
+    <audio id="71" src="assets/sounds/garchesito.mp3"></audio>
+    <audio id="72" src="assets/sounds/jakos.mp3"></audio>
+    <audio id="73" src="assets/sounds/perdon_tochi.mp3"></audio>
+    <audio id="74" src="assets/sounds/risa_sansan.mp3"></audio>
+    <audio id="75" src="assets/sounds/vamos_gordo.mp3"></audio>
+    <audio id="76" src="assets/sounds/volve_miedo_volve.mp3"></audio>
+    <audio id="77" src="assets/sounds/yendo_para_alla.mp3"></audio>
 </body>
 
 <script>
-    window.addEventListener('keydown', (e) => {
-        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    let playingAudios = []; // Save currently playing audios.
+
+    function mutePlayingAudios() {
+        if (playingAudios.length === 0) return;
+        const mutedAudios = [...playingAudios].map(audio => audio.pause());
+        playingAudios = [];
+    }
+
+    function playAudio(e) {
+        mutePlayingAudios();
+        const audio = document.querySelector(`audio[id="${e.target.id}"]`);
+        const key = document.querySelector(`.key[id="${e.target.id}"]`);
         if (!audio) return;
+
         audio.currentTime = 0;
         audio.play();
         key.classList.add('playing');
-    })
+        playingAudios.push(audio);
+    }
 
     function removeTransition(e) {
         if (e.propertyName !== 'transform') return;
